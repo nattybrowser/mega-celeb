@@ -126,6 +126,9 @@ nav a:hover { /* Style on hover */
      .container1{
          display: none;
      }
+     .sidebar{
+         display: none;
+     }
      .mobile-container {
   width: 100%;
   margin: auto;
