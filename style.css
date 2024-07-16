@@ -126,6 +126,12 @@ nav a:hover { /* Style on hover */
      .container1{
          display: none;
      }
+     footer{
+         font-size: 14px;
+     }
+     .footer11 a {
+         color: white;
+     }
      .post{
              width: auto;
      }
