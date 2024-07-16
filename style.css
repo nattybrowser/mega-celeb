@@ -126,6 +126,9 @@ nav a:hover { /* Style on hover */
      .container1{
          display: none;
      }
+     .post{
+             width: auto;
+     }
      .sidebar{
          display: none;
      }
