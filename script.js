@@ -146,7 +146,7 @@ function handleSearch() {
             displayPosts();
         }
     };
-}
+
 
 window.addEventListener("load", function () {
     const preloader = document.getElementById("preloader");
@@ -158,8 +158,8 @@ window.addEventListener("load", function () {
       layoutMode: 'masonry'
     });
     
-  });
 
+}
 
 
 
