@@ -4,20 +4,19 @@ let posts = [];
 let currentIndex = 0;
 const postsContainer = document.getElementById('posts');
 const seeMoreButton = document.getElementById('seeMoreButton');
-
-
+const searchBar = document.getElementById('search');
 
 window.onload = async function() {
-    await fetchPosts();
-    displayPosts();
-    handleSearch();
-    setupBannerRotation();
+  await fetchPosts();
+  displayPosts();
+  handleSearch();
+  setupBannerRotation(); // Add your banner rotation function (optional)
 };
 
 async function fetchPosts() {
-    const response = await fetch(jsonUrl);
-    allPosts = await response.json();
-    posts = allPosts;
+  const response = await fetch(jsonUrl);
+  allPosts = await response.json();
+  posts = allPosts;
 }
 
 function displayPosts() {
@@ -31,17 +30,31 @@ function displayPosts() {
     postDiv.appendChild(postTitle);
 
     const postImage = document.createElement('img');
-    postImage.src = post.image;
-    postImage.addEventListener('click', () => {
-      window.location.href = post.link;
-    });
-    postDiv.appendChild(postImage);
+    postImage.classList.add('lazy'); // Add a class for lazy loading
 
+    // Set a placeholder image (optional)
+    postImage.style.backgroundImage = 'url(placeholder.jpg)';
+
+    // Store the actual image URL in a data attribute
+    postImage.dataset.src = post.image;
+
+    // Set image alt text (optional)
+    postImage.alt = post.alt || 'Photo';
+
+    // Handle image click with navigation (ensure your JSON data has a "link" property)
+    postImage.addEventListener('click', () => {
+      if (post.link) { // Check if link property exists
+        window.location.href = post.link;
+      }
+    });
+
+    postDiv.appendChild(postImage);
     postsContainer.appendChild(postDiv);
   });
 
   currentIndex += 12;
   checkSeeMoreButton();
+  loadImages(); // Call the loadImages function after appending posts
 }
 
 function checkSeeMoreButton() {
@@ -57,97 +70,63 @@ seeMoreButton.onclick = function() {
   displayPosts();
 };
 
-function handleSearch() {
-    const searchButton = document.getElementById('searchButton');
-    const searchBar = document.getElementById('search');
+// Function to handle lazy loading
+function loadImages() {
+  const lazyImages = document.querySelectorAll('.lazy');
 
-    searchButton.onclick = function() {
-        const query = searchBar.value.toLowerCase();
-        postsContainer.innerHTML = '';
-        currentIndex = 0;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.src = entry.target.dataset.src;
+        entry.target.classList.remove('lazy'); // Remove lazy class after loading
+        observer.unobserve(entry.target); // Unobserve after loading
+      }
+    });
+  });
 
-        if (query) {
-            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
-        } else {
-            posts = allPosts;
-        }
-
-        if (posts.length === 0) {
-            postsContainer.innerHTML = '<p>No results found.</p>';
-            seeMoreButton.style.display = 'none';
-        } else {
-            displayPosts();
-        }
-    };
-
-    searchBar.oninput = function() {
-        if (searchBar.value === '') {
-            posts = allPosts;
-            currentIndex = 0;
-            postsContainer.innerHTML = '';
-            displayPosts();
-        }
-    };
+  lazyImages.forEach(image => observer.observe(image));
 }
-
-
-
-function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
-}
-////
-function checkSeeMoreButton1() {
-  if (currentIndex >= posts.length) {
-    seeMoreButton1.style.display = 'none';
-  } else {
-    seeMoreButton1.style.display = 'block';
-  }
-}
-
-seeMoreButton1.onclick = function() {
-  // Don't empty the container, just append new posts
-  displayPosts();
-};
-
 
 function handleSearch() {
-    const searchButton1 = document.getElementById('searchButton1');
-    const searchBar1 = document.getElementById('search1');
+  const searchButton = document.getElementById('searchButton');
 
-    searchButton1.onclick = function() {
-        const query = searchBar1.value.toLowerCase();
-        postsContainer.innerHTML = '';
-        currentIndex = 0;
+  searchButton.onclick = function() {
+    const query = searchBar.value.toLowerCase();
+    postsContainer.innerHTML = ''; // Clear container before displaying results
+    currentIndex = 0;
 
-        if (query) {
-            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
-        } else {
-            posts = allPosts;
-        }
+    if (query) {
+      posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
+    } else {
+      posts = allPosts;
+    }
 
-        if (posts.length === 0) {
-            postsContainer1.innerHTML = '<p>No results found.</p>';
-            seeMoreButton1.style.display = 'none';
-        } else {
-            displayPosts();
-        }
-    };
+    if (posts.length === 0) {
+      postsContainer.innerHTML = '<p>No results found.</p>';
+      seeMoreButton.style.display = 'none';
+    } else {
+      displayPosts();
+      // Add search recommendations after displaying posts
+      displaySearchRecommendations();
+    }
+  };
 
-    searchBar1.oninput = function() {
-        if (searchBar1.value === '') {
-            posts = allPosts;
-            currentIndex = 0;
-            postsContainer.innerHTML = '';
-            displayPosts();
-        }
-    };
+  searchBar.oninput = function() {
+    if (searchBar.value === '') {
+      posts = allPosts;
+      currentIndex = 0;
+      postsContainer.innerHTML = '';
+      displayPosts();
+    }
+  };
 }
 
+function displaySearchRecommendations() {
+  const currentSearchTerm = searchBar.value.toLowerCase();
+  const recommendedPosts = allPosts.filter(recommendedPost => {
+    const recommendedTitle = recommendedPost.title.toLowerCase();
+    return recommendedTitle !== currentSearchTerm && // Exclude current search term
+           recommendedTitle.includes(currentSearchTerm); // Titles containing the search term
+  });
 
-
-
+  if (
