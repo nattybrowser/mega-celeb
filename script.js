@@ -5,17 +5,19 @@ let currentIndex = 0;
 const postsContainer = document.getElementById('posts');
 const seeMoreButton = document.getElementById('seeMoreButton');
 
+
+
 window.onload = async function() {
-  await fetchPosts();
-  displayPosts();
-  handleSearch();
-  setupBannerRotation();
+    await fetchPosts();
+    displayPosts();
+    handleSearch();
+    setupBannerRotation();
 };
 
 async function fetchPosts() {
-  const response = await fetch(jsonUrl);
-  allPosts = await response.json();
-  posts = allPosts;
+    const response = await fetch(jsonUrl);
+    allPosts = await response.json();
+    posts = allPosts;
 }
 
 function displayPosts() {
@@ -29,24 +31,17 @@ function displayPosts() {
     postDiv.appendChild(postTitle);
 
     const postImage = document.createElement('img');
-    postImage.classList.add('lazy'); // Add a class for lazy loading
-
-    // Set a placeholder image (optional)
-    postImage.style.backgroundImage = 'url(placeholder.jpg)';
-
-    // Store the actual image URL in a data attribute
-    postImage.dataset.src = post.image;
-
-    // Set image alt text (optional)
-    postImage.alt = post.alt || 'Photo';
-
+    postImage.src = post.image;
+    postImage.addEventListener('click', () => {
+      window.location.href = post.link;
+    });
     postDiv.appendChild(postImage);
+
     postsContainer.appendChild(postDiv);
   });
 
   currentIndex += 12;
   checkSeeMoreButton();
-  loadImages(); // Call the loadImages function after appending posts
 }
 
 function checkSeeMoreButton() {
@@ -62,52 +57,97 @@ seeMoreButton.onclick = function() {
   displayPosts();
 };
 
-// Function to handle lazy loading
-function loadImages() {
-  const lazyImages = document.querySelectorAll('.lazy');
+function handleSearch() {
+    const searchButton = document.getElementById('searchButton');
+    const searchBar = document.getElementById('search');
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.src = entry.target.dataset.src;
-        entry.target.classList.remove('lazy'); // Remove lazy class after loading
-        observer.unobserve(entry.target); // Unobserve after loading
-      }
-    });
-  });
+    searchButton.onclick = function() {
+        const query = searchBar.value.toLowerCase();
+        postsContainer.innerHTML = '';
+        currentIndex = 0;
 
-  lazyImages.forEach(image => observer.observe(image));
+        if (query) {
+            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
+        } else {
+            posts = allPosts;
+        }
+
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<p>No results found.</p>';
+            seeMoreButton.style.display = 'none';
+        } else {
+            displayPosts();
+        }
+    };
+
+    searchBar.oninput = function() {
+        if (searchBar.value === '') {
+            posts = allPosts;
+            currentIndex = 0;
+            postsContainer.innerHTML = '';
+            displayPosts();
+        }
+    };
 }
+
+
+
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+////
+function checkSeeMoreButton1() {
+  if (currentIndex >= posts.length) {
+    seeMoreButton1.style.display = 'none';
+  } else {
+    seeMoreButton1.style.display = 'block';
+  }
+}
+
+seeMoreButton1.onclick = function() {
+  // Don't empty the container, just append new posts
+  displayPosts();
+};
+
 
 function handleSearch() {
-  const searchButton = document.getElementById('searchButton');
-  const searchBar = document.getElementById('search');
+    const searchButton1 = document.getElementById('searchButton1');
+    const searchBar1 = document.getElementById('search1');
 
-  searchButton.onclick = function() {
-    const query = searchBar.value.toLowerCase();
-    postsContainer.innerHTML = '';
-    currentIndex = 0;
+    searchButton1.onclick = function() {
+        const query = searchBar1.value.toLowerCase();
+        postsContainer.innerHTML = '';
+        currentIndex = 0;
 
-    if (query) {
-      posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
-    } else {
-      posts = allPosts;
-    }
+        if (query) {
+            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
+        } else {
+            posts = allPosts;
+        }
 
-    if (posts.length === 0) {
-      postsContainer.innerHTML = '<p>No results found.</p>';
-      seeMoreButton.style.display = 'none';
-    } else {
-      displayPosts();
-    }
-  };
+        if (posts.length === 0) {
+            postsContainer1.innerHTML = '<p>No results found.</p>';
+            seeMoreButton1.style.display = 'none';
+        } else {
+            displayPosts();
+        }
+    };
 
-  searchBar.oninput = function() {
-    if (searchBar.value === '') {
-      posts = allPosts;
-      currentIndex = 0;
-      postsContainer.innerHTML = '';
-      displayPosts();
-    }
-  };
+    searchBar1.oninput = function() {
+        if (searchBar1.value === '') {
+            posts = allPosts;
+            currentIndex = 0;
+            postsContainer.innerHTML = '';
+            displayPosts();
+        }
+    };
 }
+
+
+
+
