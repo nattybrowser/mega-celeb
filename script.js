@@ -152,15 +152,3 @@ function handleSearch() {
 
 
 
-window.onload = function() {
-  const loadingScreen = document.getElementById("loading-screen");
-  const mainContent = document.getElementById("main-content");
-
-  loadingScreen.style.opacity = 0; // Fade out loading screen
-
-  setTimeout(function() {
-    loadingScreen.style.display = "none"; // Hide after fade-out
-    mainContent.style.display = "block"; // Show main content
-  }, 500); // Adjust fade-out duration (milliseconds)
-};
-
