@@ -3,7 +3,9 @@ body, html {
     padding: 0;
     font-family: Arial, sans-serif;
 }
-
+.logo a{
+    color: white;
+}
 .container {
     display: flex;
     flex-wrap: wrap;
