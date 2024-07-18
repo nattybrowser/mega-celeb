@@ -5,17 +5,19 @@ let currentIndex = 0;
 const postsContainer = document.getElementById('posts');
 const seeMoreButton = document.getElementById('seeMoreButton');
 
+
+
 window.onload = async function() {
-  await fetchPosts();
-  displayPosts();
-  handleSearch();
-  setupBannerRotation(); // Assuming this function exists for banner rotation
+    await fetchPosts();
+    displayPosts();
+    handleSearch();
+    setupBannerRotation();
 };
 
 async function fetchPosts() {
-  const response = await fetch(jsonUrl);
-  allPosts = await response.json();
-  posts = allPosts;
+    const response = await fetch(jsonUrl);
+    allPosts = await response.json();
+    posts = allPosts;
 }
 
 function displayPosts() {
@@ -56,66 +58,96 @@ seeMoreButton.onclick = function() {
 };
 
 function handleSearch() {
-  const searchButton = document.getElementById('searchButton');
-  const searchBar = document.getElementById('search');
+    const searchButton = document.getElementById('searchButton');
+    const searchBar = document.getElementById('search');
 
-  searchButton.onclick = function() {
-    const query = searchBar.value.toLowerCase();
-    postsContainer.innerHTML = ''; // Clear container for new results
-    currentIndex = 0;
+    searchButton.onclick = function() {
+        const query = searchBar.value.toLowerCase();
+        postsContainer.innerHTML = '';
+        currentIndex = 0;
 
-    if (query) {
-      posts = allPosts.filter(post => {
-        const lowerCaseTitle = post.title.toLowerCase();
-        const levenshteinDistance = calculateLevenshteinDistance(query, lowerCaseTitle);
+        if (query) {
+            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
+        } else {
+            posts = allPosts;
+        }
 
-        return levenshteinDistance <= 1; // Adjust threshold for acceptable misspelling distance
-      });
-    } else {
-      posts = allPosts;
-    }
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<p>No results found.</p>';
+            seeMoreButton.style.display = 'none';
+        } else {
+            displayPosts();
+        }
+    };
 
-    if (posts.length === 0) {
-      postsContainer.innerHTML = '<p>No results found. Did you mean "' + getClosestMatch(query) + '"?</p>'; // Suggest closest match
-      seeMoreButton.style.display = 'none';
-    } else {
-      displayPosts();
-    }
-  };
-
-  searchBar.oninput = function() {
-    if (searchBar.value === '') {
-      posts = allPosts;
-      currentIndex = 0;
-      postsContainer.innerHTML = '';
-      displayPosts();
-    }
-  };
+    searchBar.oninput = function() {
+        if (searchBar.value === '') {
+            posts = allPosts;
+            currentIndex = 0;
+            postsContainer.innerHTML = '';
+            displayPosts();
+        }
+    };
 }
 
-// Function to calculate Levenshtein distance (edit distance) between two strings
-function calculateLevenshteinDistance(str1, str2) {
-  const m = str1.length;
-  const n = str2.length;
-  const dp = [];
 
-  // Initialize DP table
-  for (let i = 0; i <= m; i++) {
-    dp[i] = new Array(n + 1).fill(0);
-  }
 
-  // Base cases
-  for (let i = 0; i <= m; i++) {
-    dp[i][0] = i;
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
   }
-  for (let j = 0; j <= n; j++) {
-    dp[0][j] = j;
+}
+////
+function checkSeeMoreButton1() {
+  if (currentIndex >= posts.length) {
+    seeMoreButton1.style.display = 'none';
+  } else {
+    seeMoreButton1.style.display = 'block';
   }
+}
 
-  // Fill the DP table
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (str1[i - 1] === str2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1];
-      } else {
-        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 
+seeMoreButton1.onclick = function() {
+  // Don't empty the container, just append new posts
+  displayPosts();
+};
+
+
+function handleSearch() {
+    const searchButton1 = document.getElementById('searchButton1');
+    const searchBar1 = document.getElementById('search1');
+
+    searchButton1.onclick = function() {
+        const query = searchBar1.value.toLowerCase();
+        postsContainer.innerHTML = '';
+        currentIndex = 0;
+
+        if (query) {
+            posts = allPosts.filter(post => post.title.toLowerCase().includes(query));
+        } else {
+            posts = allPosts;
+        }
+
+        if (posts.length === 0) {
+            postsContainer1.innerHTML = '<p>No results found.</p>';
+            seeMoreButton1.style.display = 'none';
+        } else {
+            displayPosts();
+        }
+    };
+
+    searchBar1.oninput = function() {
+        if (searchBar1.value === '') {
+            posts = allPosts;
+            currentIndex = 0;
+            postsContainer.innerHTML = '';
+            displayPosts();
+        }
+    };
+}
+
+
+
+
