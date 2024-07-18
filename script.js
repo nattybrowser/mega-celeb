@@ -39,9 +39,7 @@ function displayPosts() {
 
     postsContainer.appendChild(postDiv);
 
-          if (index > 8 && index % 10 === 0) {
-      insertAd(postsContainer);
-    }
+   
   });
 
   currentIndex += 15;
