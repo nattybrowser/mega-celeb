@@ -21,7 +21,7 @@ async function fetchPosts() {
 }
 
 function displayPosts() {
-  const postBatch = posts.slice(currentIndex, currentIndex + 12);
+  const postBatch = posts.slice(currentIndex, currentIndex + 20);
   postBatch.forEach(post => {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
@@ -40,7 +40,7 @@ function displayPosts() {
     postsContainer.appendChild(postDiv);
   });
 
-  currentIndex += 12;
+  currentIndex += 15;
   checkSeeMoreButton();
 }
 
