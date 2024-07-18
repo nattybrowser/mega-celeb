@@ -134,6 +134,9 @@ nav a:hover { /* Style on hover */
      .footer11 a {
          color: white;
      }
+.post{
+    margin: 25px;
+ }
      .post{
              width: auto;
      }
