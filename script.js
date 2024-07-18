@@ -21,7 +21,7 @@ async function fetchPosts() {
 }
 
 function displayPosts() {
-  const postBatch = posts.slice(currentIndex, currentIndex + 20);
+  const postBatch = posts.slice(currentIndex, currentIndex + 21);
   postBatch.forEach(post => {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
@@ -38,43 +38,11 @@ function displayPosts() {
     postDiv.appendChild(postImage);
 
     postsContainer.appendChild(postDiv);
-
-   
   });
 
-  currentIndex += 15;
+  currentIndex += 14;
   checkSeeMoreButton();
 }
-function insertAd(container) {
-  const adDiv = document.createElement('div');
-  adDiv.className = 'ad'; // Add CSS class for styling
-
-  // **Security Considerations:**
-  // - Consider using a Content Security Policy (CSP) to restrict script execution from third-party sources.
-  // - Evaluate if the provided ad script comes from a trusted source.
-  // - Explore alternative ad networks or self-host the ad code if security is paramount.
-
-  // **Best Practices for Ad Placement:**
-  // - Choose ad formats and placements that don't disrupt user experience.
-  // - Adhere to any guidelines provided by the ad network you're using.
-
-  // **Place your trusted ad script here:**
-  adDiv.innerHTML = `
-    <script type="text/javascript">
-      atOptions = {
-        'key' : '94e546547f0c1d04bcc33be261ff8357',
-        'format' : 'iframe',
-        'height' : 300,
-        'width' : 160,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="//constellationbedriddenexams.com/94e546547f0c1d04bcc33be261ff8357/invoke.js"></script>
-  `;
-
-  container.appendChild(adDiv);
-}
-
 
 function checkSeeMoreButton() {
   if (currentIndex >= posts.length) {
@@ -179,7 +147,6 @@ function handleSearch() {
         }
     };
 }
-
 
 
 
