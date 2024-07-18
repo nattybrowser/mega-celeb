@@ -3,6 +3,13 @@ body, html {
     padding: 0;
     font-family: Arial, sans-serif;
 }
+.container1{
+    height: 70px;
+}
+.container1 logo{
+    display: flex;
+    align-items: center;
+}
 .container1 nav{
         display: flex;
     justify-content: flex-end;
