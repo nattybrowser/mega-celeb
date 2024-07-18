@@ -129,7 +129,7 @@ nav a:hover { /* Style on hover */
          display: none;
      }
      .ad-1{
-         width:700px;
+         width:550px;
      }
      footer{
          font-size: 14px;
@@ -218,6 +218,10 @@ nav a:hover { /* Style on hover */
 .topnav{
     display: none;
 }
+         .ad-1{
+             height: 30px;
+             width: 900px:
+         }
     }
 .footer11 a{
     color: white;
