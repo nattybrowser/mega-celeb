@@ -22,6 +22,20 @@ async function fetchPosts() {
 
 function displayPosts() {
   const postBatch = posts.slice(currentIndex, currentIndex + 21);
+
+  // Check for embed in each post
+  const postsWithEmbed = postBatch.filter(post => post.embed);
+
+  // If there are embeds, display them first
+  if (postsWithEmbed.length > 0) {
+    postsWithEmbed.forEach(post => {
+      const embedElement = createEmbedElement(post.embed);
+      postsContainer.appendChild(embedElement);
+    });
+  }
+
+
+    
   postBatch.forEach(post => {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
