@@ -32,7 +32,7 @@ function displayPosts() {
       const embedElement = createEmbedElement(post.embed);
       postsContainer.appendChild(embedElement);
     });
-  }
+  },
 
 
     
