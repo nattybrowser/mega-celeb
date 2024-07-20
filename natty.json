@@ -8,6 +8,12 @@
             "JavaScript",
             "Timer"
         ]
+            "embed": {
+      "type": "iframe", // Optional, defaults to iframe
+      "source": "https://d0000d.com/e/26z7r1smqxfr",
+      "width": "320",
+      "height": "240"
+    }
     },
        {
         "title": "Charli D'amelio",
