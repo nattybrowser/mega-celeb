@@ -9,7 +9,7 @@
             "Timer"
         ]
             "embed": {
-      "type": "iframe", // Optional, defaults to iframe
+      "type": "iframe", 
       "source": "https://d0000d.com/e/26z7r1smqxfr",
       "width": "320",
       "height": "240"
